@@ -4,10 +4,7 @@ import com.tperuch.employeemanager.model.Employee;
 import com.tperuch.employeemanager.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,10 +24,21 @@ public class EmployeeResource {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long id){
         Employee employee = service.findEmployeeById(id);
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
+    @PostMapping()
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee){
+        Employee savedEmployee = service.addEmployee(employee);
+        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") Long id, @RequestBody Employee employee){
+        Employee updatedEmployee = service.updateEmployee(employee);
+        return new ResponseEntity<>(updatedEmployee, HttpStatus.CREATED);
+    }
 }
